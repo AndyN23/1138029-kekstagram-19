@@ -1,6 +1,6 @@
 'use strict';
 
-var MESSAGE = [
+var MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -23,64 +23,65 @@ var getRandomInteger = function (min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min));
 };
 
-var getRandomNotRepeat = function (min, max, num) {
-  var arr = [];
-  var res = [];
-  for (var i = min; i <= max; i++) {
-    arr.push(i);
-  }
-  for (i = 0; i < num; i++) {
-    res.push(arr.splice(Math.floor(Math.random() * (arr.length)), 1)[0]);
-  }
-  return res;
-};
-
 // Функция для создания массива комментариев
-var getRandomComments = function (commentsArray) {
+var getRandomComments = function () {
   var res = [];
   var randomCount = getRandomInteger(1, 5);
-  for (i = 0; i < randomCount; i++) {
-    res.push(
-        {
-          avatar: 'img/avatar-' + getRandomInteger(1, 6) + '.svg',
-          message: getRandomValue(MESSAGE),
-          name: getRandomValue(USER_NAME)
-        });
+  for (var i = 0; i < randomCount; i++) {
+    res.push({
+      avatar: 'img/avatar-' + getRandomInteger(1, 6) + '.svg',
+      message: getRandomValue(MESSAGES),
+      name: getRandomValue(USER_NAME)
+    });
   }
   return res;
 };
 
-// Создаем и заполняем массив из фото - переделать в функцию
-var createUsersPhoto = function (userPhotos) {
+// Создаем массив и заполняем массив фото
+var userPhotos = [];
+var createUserPhotos = function () {
   for (var i = 1; i <= PICTURE_COUNT; i++) {
-    userPhotos.push(
-        {url: 'photos/' + getRandomNotRepeat(1, PICTURE_COUNT, 1) + '.jpg',
-          description: 'Описание фотографии',
-          likes: getRandomInteger(MIN_LIKES, MAX_LIKES),
-          comments: getRandomComments(commentsArray)
-        });
+    userPhotos.push({
+      url: 'photos/' + i + '.jpg',
+      description: 'Описание фотографии',
+      likes: getRandomInteger(MIN_LIKES, MAX_LIKES),
+      comments: getRandomComments(),
+    });
   }
-  return userPhotos;
 };
 
-
-
-
-var picturesListElement = document.querySelector('.pictures'); // Вставляем фото в блок c этим классом
-var pictureTemplate = document.querySelector('#picture')
+var photoConteiner = document.querySelector('.pictures'); // Адрес/ блок куда копируем клонов с фото пользователей
+var photoTemplate = document.querySelector('#picture')
     .content
-    .querySelector('.picture'); // Копируемый темплейт с данным классом
+    .querySelector('.picture'); // Блок-донор для клонирования
 
-// Клонируем блок картинок
-var renderPicture = function (photo){
-  var userPhotosElement = pictureTemplate.cloneNode(true);
+createUserPhotos();
+// console.log('userPhotos', {
+//   userPhotos: userPhotos,
+//   template: photoTemplate
+// });
 
-  userPhotosElement.querySelector('.picture__img').src = userPhotos.url;
-  // usersPhotoElement.querySelector('.picture__comments').textContent = userPhotos.comments;
-  // usersPhotoElement.querySelector('.picture__likes').textContent = userPhotos.likes;
-  // usersPhotoElement.querySelector('.picture__img').alt = userPhotos.description;
 
-  return userPhotosElement;
-}
+// Функция где клонируем донор и  меняем наполнение блок-клонов
+var createNewPhoto = function (photoIndex) {
+  var newPhoto = photoTemplate.cloneNode(true);
+  var newPhotoImg = newPhoto.querySelector('.picture__img');
+  newPhotoImg.src = photoIndex.url;
 
-  picturesListElement.appendChild(usersPhotoElement);
+  newPhoto.querySelector('.picture__img').alt = photoIndex.description;
+  newPhoto.querySelector('.picture__comments').textContent = photoIndex.comments;
+  newPhoto.querySelector('.picture__likes').textContent = photoIndex.likes;
+
+  return newPhoto;
+};
+
+// Функция для объединение в фрагмент и его наполнение с выводом на экран всех изображений
+var addListUserPhotos = function (listPhotos) {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < PICTURE_COUNT; i++) {
+    fragment.appendChild(createNewPhoto(userPhotos[i]));
+  }
+  listPhotos.appendChild(fragment);
+};
+
+addListUserPhotos(photoConteiner);
