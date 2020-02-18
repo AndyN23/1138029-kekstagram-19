@@ -93,9 +93,9 @@ var openModal = document.querySelector('#upload-file');
 var modalClose = document.querySelector('#upload-cancel');
 
 // Открытие инпута загрузки => последующее открытие картинки с фильтрами - закрытие ESC
-openModal.addEventListener('click', function (evt) {
+openModal.addEventListener('click', function () {
   openModal.classList.remove('visually-hidden');
-  openModal.addEventListener('change', function (evt) {
+  openModal.addEventListener('change', function () {
     openUploadForm.classList.remove('hidden');
     document.querySelector('body').classList.add('modal-open');
 
@@ -112,7 +112,7 @@ openModal.addEventListener('click', function (evt) {
 
 
 // Закрытие окна при клике
-modalClose.addEventListener('click', function (evt) {
+modalClose.addEventListener('click', function () {
   openUploadForm.classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
 });
@@ -123,7 +123,7 @@ var effectLevelLine = document.querySelector('.effect-level__line');
 var effectLevelPin = document.querySelector('.effect-level__pin');
 
 // Передвижение джостика при отпускании кнопки мыши
-effectLevelLine.addEventListener('mouseup', function (evt) {
+effectLevelLine.addEventListener('mouseup', function () {
   effectLevelPin.style.position = 'absolute';
   var x = event.offsetX; // Начальная точка координат относительно родителя
   effectLevelPin.style.left = x + 'px';
@@ -144,16 +144,16 @@ effectLevelLine.addEventListener('mouseup', function (evt) {
 var imgUploadPreview = document.querySelector('.img-upload__preview');
 var effectsRadio = document.querySelectorAll('.effects__radio');
 
-for (var i = 0; i < effectsRadio.length; i++){
+for (var i = 0; i < effectsRadio.length; i++) {
   (function (choiceEffect) {
-  choiceEffect.addEventListener('change', function (evt) {
+    choiceEffect.addEventListener('change', function () {
       var effectsName = choiceEffect.value;
       imgUploadPreview.className = '';
       imgUploadPreview.classList.add('img-upload__preview');
       imgUploadPreview.classList.add('effects__preview--' + effectsName);
     });
   })(effectsRadio[i]);
-};
+}
 
 // Валидация хеш тегов
 var MAX_HASHTAGS = 5;
@@ -169,16 +169,16 @@ function getCustomValidity() {
     return;
   }
   // набор хэш-тегов из строк превращает в массив с нижним регистром
-    var setHashtags = textHashtags.value.toLowerCase().split(' ');
-    if (setHashtags.length >= MAX_HASHTAGS) {
-      textHashtags.setCustomValidity('Нельзя указывать больше пяти хэш-тегов');
+  var setHashtags = textHashtags.value.toLowerCase().split(' ');
+  if (setHashtags.length >= MAX_HASHTAGS) {
+    textHashtags.setCustomValidity('Нельзя указывать больше пяти хэш-тегов');
     return;
-    }
+  }
   // создаем объект для проверки хеш на уникальность
   // В дальнейшем переделать  уникальность через SET
   var uniqueHash = {};
   // цикл проверяет каждый из хэш-тегов на соответствие ограничениям
-  for (var i = 0; i < setHashtags.length; i++) {
+  for (i = 0; i < setHashtags.length; i++) {
     if (!setHashtags[i].match(/^#[a-zA-Z0-9а-яА-Я]+$/)) {
       textHashtags.setCustomValidity('Хэш-тег должен начинаться с символа # и должен состоять только из числе и букв');
       break;
@@ -194,6 +194,6 @@ function getCustomValidity() {
     // если все в порядке, записывает тег в список уникальных
     uniqueHash[setHashtags[i]] = true;
   }
-};
+}
 
 textHashtags.addEventListener('change', getCustomValidity);
