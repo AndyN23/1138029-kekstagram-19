@@ -85,3 +85,115 @@ var addListUserPhotos = function (listPhotos) {
 };
 
 addListUserPhotos(photoConteiner);
+
+// _______________
+// Задание доверяй, но проверяй
+var openUploadForm = document.querySelector('.img-upload__overlay');
+var openModal = document.querySelector('#upload-file');
+var modalClose = document.querySelector('#upload-cancel');
+
+// Открытие инпута загрузки => последующее открытие картинки с фильтрами - закрытие ESC
+openModal.addEventListener('click', function () {
+  openModal.classList.remove('visually-hidden');
+  openModal.addEventListener('change', function () {
+    openUploadForm.classList.remove('hidden');
+    document.querySelector('body').classList.add('modal-open');
+
+    document.addEventListener('keydown', function (evt) {
+      if (evt.key === 'Escape') {
+        openUploadForm.classList.add('hidden');
+        openModal.classList.add('visually-hidden');
+        openModal.value = '';
+        document.querySelector('body').classList.remove('modal-open');
+      }
+    });
+  });
+});
+
+
+// Закрытие окна при клике
+modalClose.addEventListener('click', function () {
+  openUploadForm.classList.add('hidden');
+  document.querySelector('body').classList.remove('modal-open');
+});
+
+// Настройка насыщенности
+var effectLevelDepth = document.querySelector('.effect-level__depth');
+var effectLevelLine = document.querySelector('.effect-level__line');
+var effectLevelPin = document.querySelector('.effect-level__pin');
+
+// Передвижение джостика при отпускании кнопки мыши
+effectLevelLine.addEventListener('mouseup', function () {
+  effectLevelPin.style.position = 'absolute';
+  var x = event.offsetX; // Начальная точка координат относительно родителя
+  effectLevelPin.style.left = x + 'px';
+  // Перемещаем насыщенность за джостиком
+  effectLevelDepth.style.width = effectLevelPin.style.left;
+
+  // Добавляем значение в инпут
+  var inputEffectLevel = document.querySelector('input[name=effect-level]'); // inputeffect
+  // console.log(ninputEffectLevel.value);
+  inputEffectLevel.value = Math.floor(effectLevelDepth.offsetWidth / effectLevelLine.offsetWidth * 100);
+  // console.log('newValue', {
+  //  fullWidth : effectLevelLine.offsetWidth,
+  //  activeWidth: effectLevelDepth.offsetWidth,
+  //  newValue: inputEffectLevel.value });
+});
+
+// Включение фильтров
+var imgUploadPreview = document.querySelector('.img-upload__preview');
+var effectsRadio = document.querySelectorAll('.effects__radio');
+
+for (var i = 0; i < effectsRadio.length; i++) {
+  (function (choiceEffect) {
+    choiceEffect.addEventListener('change', function () {
+      var effectsName = choiceEffect.value;
+      imgUploadPreview.className = '';
+      imgUploadPreview.classList.add('img-upload__preview');
+      imgUploadPreview.classList.add('effects__preview--' + effectsName);
+    });
+  })(effectsRadio[i]);
+}
+
+// Валидация хеш тегов
+var MAX_HASHTAGS = 5;
+var MAX_LENGTH_HASHTAG = 20;
+
+var textHashtags = document.querySelector('.text__hashtags');
+
+function getCustomValidity() {
+  textHashtags.setCustomValidity(''); // обнуляем при изменении
+
+  if (textHashtags.value === '') {
+    // хэш-теги необязательны;
+    return;
+  }
+  // набор хэш-тегов из строк превращает в массив с нижним регистром
+  var setHashtags = textHashtags.value.toLowerCase().split(' ');
+  if (setHashtags.length >= MAX_HASHTAGS) {
+    textHashtags.setCustomValidity('Нельзя указывать больше пяти хэш-тегов');
+    return;
+  }
+  // создаем объект для проверки хеш на уникальность
+  // В дальнейшем переделать  уникальность через SET
+  var uniqueHash = {};
+  // цикл проверяет каждый из хэш-тегов на соответствие ограничениям
+  for (i = 0; i < setHashtags.length; i++) {
+    if (!setHashtags[i].match(/^#[a-zA-Z0-9а-яА-Я]+$/)) {
+      textHashtags.setCustomValidity('Хэш-тег должен начинаться с символа # и должен состоять только из числе и букв');
+      break;
+    }
+    if (setHashtags[i].length > MAX_LENGTH_HASHTAG) {
+      textHashtags.setCustomValidity('Максимальная длина одного хэш-тега должна быть не больше 20 символов, включая #');
+      break;
+    }
+    if (uniqueHash[setHashtags[i]]) {
+      textHashtags.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды');
+      break;
+    }
+    // если все в порядке, записывает тег в список уникальных
+    uniqueHash[setHashtags[i]] = true;
+  }
+}
+
+textHashtags.addEventListener('change', getCustomValidity);
