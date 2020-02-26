@@ -15,7 +15,7 @@
   var MAX_LIKES = 200;
   var MAX_HASHTAGS = 5;
   var MAX_LENGTH_HASHTAG = 20;
-     // запрос выполнен успешно
+  // запрос выполнен успешно
   var CODE_200 = 200;
   // ошибка клиента, неверный запрос
   var CODE_400 = 400;
