@@ -15,6 +15,18 @@
   var MAX_LIKES = 200;
   var MAX_HASHTAGS = 5;
   var MAX_LENGTH_HASHTAG = 20;
+     // запрос выполнен успешно
+  var CODE_200 = 200;
+  // ошибка клиента, неверный запрос
+  var CODE_400 = 400;
+  // ошибка клиента, не авторизован
+  var CODE_401 = 401;
+  // ошибка клиента, не найдено
+  var CODE_404 = 404;
+
+  var URL_DATA = 'js.dump.academy/kekstagram/data';
+
+  var TIMEOUT_IN_MS = 10000;
 
   window.const = {
     MESSAGES: MESSAGES,
@@ -23,6 +35,12 @@
     MIN_LIKES: MIN_LIKES,
     MAX_LIKES: MAX_LIKES,
     MAX_HASHTAGS: MAX_HASHTAGS,
-    MAX_LENGTH_HASHTAG: MAX_LENGTH_HASHTAG
+    MAX_LENGTH_HASHTAG: MAX_LENGTH_HASHTAG,
+    CODE_200: CODE_200,
+    CODE_400: CODE_400,
+    CODE_401: CODE_401,
+    CODE_404: CODE_404,
+    URL_DATA: URL_DATA,
+    TIMEOUT_IN_MS: TIMEOUT_IN_MS
   };
 })();
