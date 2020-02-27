@@ -24,7 +24,7 @@
   // ошибка клиента, не найдено
   var CODE_404 = 404;
 
-  var URL_DATA = 'js.dump.academy/kekstagram/data';
+  var URL_DATA = 'https://js.dump.academy/kekstagram/data';
 
   var TIMEOUT_IN_MS = 10000;
 
