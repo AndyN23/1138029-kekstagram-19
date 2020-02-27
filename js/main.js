@@ -25,10 +25,9 @@
       });
     }
   };
+
   var photoConteiner = document.querySelector('.pictures'); // Адрес/ блок куда копируем клонов с фото пользователей
-  var photoTemplate = document.querySelector('#picture')
-      .content
-      .querySelector('.picture'); // Блок-донор для клонирования
+  var photoTemplate = document.querySelector('#picture').content.querySelector('.picture'); // Блок-донор для клонирования
 
   createUserPhotos();
   // console.log('userPhotos', {
@@ -53,5 +52,20 @@
     }
     listPhotos.appendChild(fragment);
   };
-  addListUserPhotos(photoConteiner);
+
+  var errorHandler = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'fixed';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '24px';
+    node.style.color = 'black';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  window.backend.load(addListUserPhotos(photoConteiner), errorHandler);
+  // addListUserPhotos(photoConteiner);
 })();
