@@ -5,7 +5,7 @@
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
-    xhr.open('GET', window.const.URL_DATA);
+    //
 
     xhr.addEventListener('load', function () {
       switch (xhr.status) {

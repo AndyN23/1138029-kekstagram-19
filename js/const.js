@@ -23,9 +23,9 @@
   var CODE_401 = 401;
   // ошибка клиента, не найдено
   var CODE_404 = 404;
-
+  // данные с сервера
   var URL_DATA = 'https://js.dump.academy/kekstagram/data';
-
+  // время
   var TIMEOUT_IN_MS = 10000;
 
   window.const = {
