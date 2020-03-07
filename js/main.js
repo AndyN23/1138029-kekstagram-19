@@ -58,7 +58,7 @@
     // заполняем фрагмент фотками - 25 шт
     for (var i = 0; i < listPhotos.length; i++) {
       fragment.appendChild(createNewPhoto(listPhotos[i]));
-    };
+    }
     // console.log("addListUserPhotos",
     //   {
     //     listPhotos
@@ -84,10 +84,6 @@
   // запускаем функцию с сервера
   window.backend.load(addListUserPhotos, errorHandler);
   // addListUserPhotos(photoConteiner);
-
-
-
-
 
   // Работаем с большой картинкой
   // Блок коментариев

@@ -19,7 +19,7 @@
       openModal.classList.add('visually-hidden');
       openModal.value = '';
       document.querySelector('body').classList.remove('modal-open');
-      document.querySelector('.big-picture').classList.add('hidden');;
+      document.querySelector('.big-picture').classList.add('hidden');
     }
   });
   // Закрытие окна при клике
@@ -32,7 +32,7 @@
 
   // Закрытие полноразмерного окна
   var closeBigPicture = document.querySelector('.big-picture__cancel');
-  closeBigPicture.addEventListener('click', function() {
+  closeBigPicture.addEventListener('click', function () {
     document.querySelector('.big-picture').classList.add('hidden');
     document.querySelector('body').classList.remove('modal-open');
   });
@@ -43,5 +43,5 @@
   //   document.querySelector('.big-picture').classList.remove('hidden');
   //   overlayPictures.classList.add('big-picture__img');
 
-  });
+  // });
 })();
