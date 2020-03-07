@@ -56,11 +56,16 @@
     // создаем фрагмент
     var fragment = document.createDocumentFragment();
     // заполняем фрагмент фотками - 25 шт
-    for (var i = 0; i < window.const.PICTURE_COUNT; i++) {
-      fragment.appendChild(createNewPhoto(userPhotos[i]));
-    }
-    listPhotos.appendChild(fragment);
+    for (var i = 0; i < listPhotos.length; i++) {
+      fragment.appendChild(createNewPhoto(listPhotos[i]));
+    };
+    // console.log("addListUserPhotos",
+    //   {
+    //     listPhotos
+    //   });
+    photoConteiner.appendChild(fragment);
   };
+
 
   var errorHandler = function (errorMessage) {
     // создаем блок ошибки
@@ -77,7 +82,7 @@
     document.body.insertAdjacentElement('afterbegin', node);
   };
   // запускаем функцию с сервера
-  window.backend.load(addListUserPhotos(photoConteiner), errorHandler);
+  window.backend.load(addListUserPhotos, errorHandler);
   // addListUserPhotos(photoConteiner);
 
 
